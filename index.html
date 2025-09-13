@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IQC Maker — Premium</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0d1b2a;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    .input-box {
+      margin: 20px 0;
+    }
+    .chat-preview {
+      background: #000;
+      border-radius: 10px;
+      width: 300px;
+      margin: 20px auto;
+      padding: 15px;
+      text-align: left;
+    }
+    .chat-bubble {
+      background: #2b2b2b;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 5px 0;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #3b82f6;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <h2>IQC Maker — Premium</h2>
+  <div class="input-box">
+    <input id="userInput" type="text" placeholder="Masukkan teks..." style="padding:10px;width:80%;">
+    <button onclick="generateChat()">Create</button>
+  </div>
+
+  <div id="result" class="chat-preview" style="display:none;">
+    <div class="chat-bubble" id="chatText"></div>
+  </div>
+
+  <button onclick="downloadImage()" style="display:none;" id="downloadBtn">Download</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    function generateChat() {
+      let text = document.getElementById("userInput").value;
+      document.getElementById("chatText").innerText = text;
+      document.getElementById("result").style.display = "block";
+      document.getElementById("downloadBtn").style.display = "inline-block";
+    }
+
+    function downloadImage() {
+      html2canvas(document.querySelector("#result")).then(canvas => {
+        let link = document.createElement("a");
+        link.download = "chat.png";
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>
