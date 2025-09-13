@@ -3,138 +3,145 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IQC Maker — Premium</title>
+  <title>iPhone Quoted Generator</title>
   <style>
     body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #0b141a;
-      color: white;
-      text-align: center;
+      background: #000;
+      color: #eee;
+      font-family: "Poppins", Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
       padding: 20px;
     }
-    .input-box {
-      margin: 20px 0;
+    h1 {
+      font-size: 2.3rem;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #1e90ff, #00aaff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 15px #0077ff;
+    }
+    .container {
+      background: rgba(25, 25, 25, 0.95);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(0,119,255,0.3);
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      backdrop-filter: blur(10px);
     }
     input {
-      padding: 10px;
-      width: 70%;
-      border-radius: 8px;
-      border: none;
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      border: 2px solid #1e90ff;
+      outline: none;
+      font-size: 1rem;
+      background: #111;
+      color: #eee;
+      transition: 0.3s;
+      box-sizing: border-box;
+    }
+    input:focus {
+      border-color: #00aaff;
+      box-shadow: 0 0 12px #00aaff88;
     }
     button {
-      padding: 10px 20px;
-      margin-left: 5px;
+      background: linear-gradient(90deg, #1e90ff, #00aaff);
       border: none;
-      border-radius: 8px;
-      background: #3b82f6;
-      color: white;
+      padding: 12px 25px;
+      border-radius: 50px;
       cursor: pointer;
+      font-size: 1rem;
+      color: #111;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin: 0 auto;
+      transition: transform 0.2s, box-shadow 0.3s;
     }
-    .chat-preview {
-      background: #000 url('https://i.ibb.co/mhF0P9t/wa-bg.png') repeat;
-      border-radius: 10px;
-      width: 320px;
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 18px #1e90ff66;
+    }
+    .result {
+      margin-top: 20px;
+      min-height: 120px;
+    }
+    .result img {
+      max-width: 100%;
+      border-radius: 15px;
+      border: 2px solid #1e90ff;
+      margin-top: 15px;
+      box-shadow: 0 0 20px rgba(30,144,255,0.3);
+    }
+    .loader {
+      border: 4px solid #333;
+      border-top: 4px solid #1e90ff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
       margin: 20px auto;
-      padding: 15px;
-      text-align: left;
-      position: relative;
     }
-    .bubble {
-      background: #2b2b2b;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .download-btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      border-radius: 30px;
+      background: linear-gradient(90deg, #00aaff, #1e90ff);
       color: white;
-      padding: 10px 15px;
-      border-radius: 8px;
-      margin: 20px 0 5px;
-      position: relative;
-      max-width: 85%;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
     }
-    .time {
-      font-size: 10px;
-      color: #ccc;
-      float: right;
-      margin-left: 8px;
-    }
-    .reactions {
-      margin-top: -15px;
-      margin-bottom: 5px;
-      font-size: 16px;
-    }
-    .menu {
-      background: rgba(20,20,20,0.9);
-      border-radius: 10px;
-      padding: 10px;
-      font-size: 14px;
-    }
-    .menu div {
-      padding: 6px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .menu div:last-child {
-      border: none;
-      color: red;
+    .download-btn:hover {
+      box-shadow: 0 0 15px #00aaffaa;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
-  <h2>IQC Maker — Premium</h2>
-  <p>Masukkan teks lalu klik Create untuk membuat hasil.</p>
-  <div class="input-box">
-    <input id="userInput" type="text" placeholder="Masukkan teks...">
-    <button onclick="generateChat()">Create</button>
+  <h1>iPhone Quoted Generator</h1>
+  <div class="container">
+    <input type="text" id="message" placeholder="Tulis kata-kata kamu... ✨">
+    <button onclick="generateImage()">🚀 Kirim</button>
+
+    <div class="result" id="result"></div>
   </div>
 
-  <div id="result" class="chat-preview" style="display:none;">
-    <div class="reactions">👍 ❤️ 😂 😮 😢 🙏</div>
-    <div class="bubble" id="chatBubble">
-      HIDUP HARUS TERUS SEPERTI <span class="time">07:22</span>
-    </div>
-    <div class="menu">
-      <div>⭐ Beri Bintang</div>
-      <div>↩ Balas</div>
-      <div>⤴ Teruskan</div>
-      <div>📋 Salin</div>
-      <div>💬 Ucapkan</div>
-      <div>⚠ Laporkan</div>
-      <div>🗑 Hapus</div>
-    </div>
-  </div>
-
-  <button onclick="downloadImage()" style="display:none;" id="downloadBtn">Download</button>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
-    function generateChat() {
-      let text = document.getElementById("userInput").value;
-      document.getElementById("chatBubble").innerHTML = text + ' <span class="time">07:22</span>';
-      document.getElementById("result").style.display = "block";
-      document.getElementById("downloadBtn").style.display = "inline-block";
-    }
+    function generateImage() {
+      const message = document.getElementById("message").value.trim();
+      const resultDiv = document.getElementById("result");
 
-    function downloadImage() {
-      html2canvas(document.querySelector("#result")).then(canvas => {
-        let link = document.createElement("a");
-        link.download = "fakechat.png";
-        link.href = canvas.toDataURL();
-        link.click();
-      });
-    }
-  </script>
-</body>
-</html>  <script>
-    function generateChat() {
-      let text = document.getElementById("userInput").value;
-      document.getElementById("chatBubble").childNodes[0].nodeValue = text + " ";
-      document.getElementById("result").style.display = "block";
-      document.getElementById("downloadBtn").style.display = "inline-block";
-    }
+      if (!message) {
+        alert("Harap masukkan teks terlebih dahulu!");
+        return;
+      }
 
-    function downloadImage() {
-      html2canvas(document.querySelector("#result")).then(canvas => {
-        let link = document.createElement("a");
-        link.download = "whatsapp_chat.png";
-        link.href = canvas.toDataURL();
-        link.click();
-      });
+      resultDiv.innerHTML = '<div class="loader"></div><p>Sedang memproses...</p>';
+
+      const apiUrl = `https://brat.siputzx.my.id/iphone-quoted?time=11%3A26&messageText=${encodeURIComponent(message)}&carrierName=INDOSAT%20OOREDOO&batteryPercentage=88&signalStrength=4&emojiStyle=apple`;
+
+      setTimeout(() => {
+        resultDiv.innerHTML = `
+          <p>Hasil:</p>
+          <img src="${apiUrl}" alt="Generated Image">
+          <br>
+          <a class="download-btn" href="/api/download?url=${encodeURIComponent(apiUrl)}">⬇️ Download</a>
+        `;
+      }, 800);
     }
   </script>
 </body>
