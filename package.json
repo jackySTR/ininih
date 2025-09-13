@@ -1,0 +1,12 @@
+{
+  "name": "iphone-quoted-generator",
+  "version": "1.0.0",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
